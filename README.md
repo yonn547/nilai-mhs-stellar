@@ -1,88 +1,83 @@
-# deal.in Smart Contract
+# Portal Mahasiswa Smart Contract
 
-**deal.in** - Borderless Creator Payment & Immutable Fee Ledger
+**Portal Mahasiswa - Decentralized Academic Identity & Immutable Record Storage**
 
-## Project Description
+### Project Description
 
-deal.in Smart Contract is a decentralized ledger solution built on the Stellar blockchain using the Soroban SDK. It serves as the transparent, unalterable backbone for the deal.in platform—a creator economy ecosystem designed to facilitate cross-border micro-payments in Asia. 
+Portal Mahasiswa Smart Contract is a decentralized data storage solution built on the Stellar blockchain using the Soroban SDK. It serves as a transparent and unalterable backbone for recording student identities. 
 
-Currently, this contract acts as a transparent financial ledger. It securely records incoming payments from fans and automatically calculates a strict, trustless 95/5 fee split (95% to the creator, 5% to the platform). By utilizing smart contracts, deal.in ensures that revenue distribution is permanently recorded, mathematically guaranteed, and immune to hidden platform fees or manipulation.
+Currently, this contract acts as a secure, persistent key-value ledger. It maps a unique Student ID (NIM) directly to a student's full name. By utilizing smart contracts, the system ensures that academic identities are permanently recorded on-chain, preventing unauthorized deletion or manipulation of core student data.
 
-## Project Vision
+### Project Vision
 
-Our vision is to revolutionize the creator economy in Asia by breaking down financial borders and ensuring fair compensation through:
+Our vision is to modernize academic record-keeping by replacing vulnerable centralized databases with a highly secure, blockchain-based infrastructure. We aim to achieve this through:
+*   **Guaranteeing Immutability:** Providing a permanent, tamper-proof system where student records, once verified and stored, cannot be maliciously altered.
+*   **Trustless Verification:** Allowing third parties (like employers or other universities) to independently verify a student's identity directly from the blockchain.
+*   **Focusing on Security:** Implementing strict smart contract auditing principles and secure storage methods to ensure data integrity.
+*   **Fostering Decentralization:** Shifting control of identity verification from single points of failure to a distributed, highly available network.
 
-- **Borderless Support**: Enabling fans from anywhere to support creators using local payment methods, with the blockchain handling the settlement reality.
-- **Trustless Revenue Splitting**: Replacing opaque corporate fee structures with open-source, automated smart contract logic.
-- **Guaranteeing Immutability**: Providing a permanent, tamper-proof audit trail of all financial support a creator receives.
-- **Fostering Creator Independence**: Empowering creators to monetize their digital products and receive funds without relying on highly restrictive, centralized payment gateways.
+We envision a future where academic credentials and student identities are easily verifiable, globally recognized, and completely secure against data breaches.
 
-We envision a future where the path of money from a fan's local wallet to a creator's pocket is seamless, instant, and completely transparent.
+### Key Features
 
-## Key Features
+**1. Persistent Data Storage**
+*   Utilizes Soroban's `persistent` storage to ensure student records are kept safely on-chain indefinitely.
+*   Prevents automated data archiving, guaranteeing that identities are always accessible.
 
-### 1. **Automated Fee Distribution**
-- Hardcoded, immutable 95% / 5% split for every recorded transaction.
-- Eliminates manual calculation errors or hidden platform deductions.
-- Mathematical precision enforced by the Rust compiler.
+**2. Efficient Key-Value Mapping**
+*   Uses the Student ID (NIM) as a unique cryptographic key.
+*   Retrieves specific student data instantly without needing to loop through entire arrays.
 
-### 2. **Transparent Payment Recording**
-- Create permanent payment records with a single function call.
-- Logs critical data: Fan Name, Creator Name, Gross Amount, and the exact split values.
-- Automated unique ID generation for every transaction.
+**3. Safe Data Retrieval**
+*   Implements Rust's `Option<T>` wrapper for read functions to gracefully handle queries for non-existent records.
+*   Prevents contract panics when searching for unregistered NIMs.
 
-### 3. **Efficient Ledger Retrieval**
-- Fetch the entire history of transactions for instant frontend display.
-- Structured data representation (`TipRecord`) for easy integration with dashboards.
-- Real-time synchronization with the Stellar blockchain state.
+**4. Auditability and Security**
+*   All data entries are permanently logged on the Stellar blockchain.
+*   Built using a `no_std` Rust environment to optimize resource consumption and minimize attack vectors.
 
-### 4. **Auditability and Security**
-- View all financial activities openly on the blockchain.
-- Protection against unauthorized modifications—once a payment is recorded, it cannot be altered or deleted.
-- Built with a focus on smart contract security and strict data types (`u64` to prevent negative value exploits).
-
-### 5. **Stellar Network Integration**
-- Leverages the high speed and near-zero cost of the Stellar ecosystem.
-- Built using the modern, Rust-based Soroban Smart Contract SDK.
-- Serves as the foundation for future direct USDC settlement integration.
-
-## Contract Details
-
-- **Network**: Stellar Testnet
-- **Contract Address**: CDW5ZJHPIVRSPKQGOKB5IWR5EOOFIRBBC6Y6EOVI5EYMQ42LZN42OTKQ
-
-## Future Scope
-
-### Short-Term Enhancements
-1. **Direct USDC Settlement**: Upgrade the contract from a pure ledger to handle actual USDC token transfers via Soroban Token Client.
-2. **Access Control**: Implement `require_auth()` so only authorized deal.in backend servers can record valid local fiat payments.
-3. **Event Emission**: Use `env.events().publish()` to notify off-chain applications the moment a payment split occurs.
-
-### Medium-Term Development
-4. **Creator Subscriptions**: Smart contract logic to handle recurring monthly support.
-5. **Decentralized Escrow**: Hold funds in the contract until a buyer confirms receipt of a digital product.
-6. **Multi-Asset Support**: Allow settlements in various Stellar-based stablecoins (e.g., EURC, AUDD).
-
-### Long-Term Vision
-7. **Cross-Platform Widget**: Package deal.in as a Web3 payment widget that can be embedded into other platforms.
-8. **Creator Tokenization**: Allow top creators to launch their own social tokens.
-9. **DAO Governance**: Transition platform fee adjustments and feature upgrades to community voting.
+**5. Stellar Network Integration**
+*   Leverages the high speed and near-zero cost of the Stellar ecosystem for deploying and interacting with the ledger.
+*   Built using the modern, Rust-based Soroban Smart Contract SDK.
 
 ---
 
-## Technical Requirements
+### Contract Details
 
-- Rust programming language
-- Soroban SDK (`soroban-cli`)
-- Stellar blockchain network (Testnet/Futurenet)
+*   **Network:** Stellar Testnet / Futurenet
+*   **Contract Address:** CASBWDCB6OQ3FKMVK4LFPHJ2R37EAJK3YUD7WF2U4QCPRDWYO6HARADT
+---
 
-## Getting Started
+### Future Scope
+
+**Short-Term Enhancements**
+*   **Access Control (Auth):** Implement `require_auth()` so only authorized university admin wallets can trigger the `simpan` (write) function, while keeping the `ambil` (read) function public.
+*   **Event Emission:** Use `env.events().publish()` to notify external applications and the frontend the exact moment a new student record is successfully minted on-chain.
+
+**Medium-Term Development**
+*   **Expanded Data Structs:** Upgrade the `Mahasiswa` struct to hold additional verifiable credentials, such as major, faculty, and enrollment year.
+*   **IPFS Integration:** Link the smart contract to decentralized file storage (IPFS) to store encrypted versions of digital Student ID cards (KTM) or transcripts.
+
+**Long-Term Vision**
+*   **Cross-University Consortium:** Package the contract into a standard protocol that multiple universities can adopt for inter-institutional credit transfers and student verification.
+*   **Self-Sovereign Identity (SSI):** Empower students to own their academic records using specialized wallet integrations, allowing them to selectively share their verified data with employers.
+
+---
+
+### Technical Requirements
+
+*   Rust programming language (Basic understanding of structs and options)
+*   Soroban SDK (`soroban-cli`)
+*   Stellar blockchain network (Testnet/Futurenet)
+*   Target compilation: `wasm32-unknown-unknown`
+
+---
+
+### Getting Started
 
 Deploy the smart contract to Stellar's Soroban network and interact with it using the main functions:
-
-- `record_payment(creator: String, fan: String, amount: u64)` - Calculate the split and record a new transaction.
-- `get_all_transactions()` - Retrieve the immutable list of all recorded payments.
+*   **`simpan(nim: String, nama: String)`** - Create and store a new, immutable student identity record in the persistent ledger.
+*   **`ambil(nim: String)`** - Search and retrieve a specific student's data based on their unique NIM.
 
 ---
-
-**deal.in** — Sell your content. Get paid by anyone, from anywhere.
+**Portal Mahasiswa** — Secure your academic identity. Verifiable anywhere, forever.
